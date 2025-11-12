@@ -103,10 +103,22 @@ document.addEventListener("DOMContentLoaded", () => {
     newPlayerButton.addEventListener("click", (event) => {
 
     })
-
-    function userCookie(name){
-        document.cookie(`username=${name};expires=`, new Date(9999, 0, 1).toUTCString)
+    function storeUsername(name){
+        if(name.trim() !== ""){
+            document.cookie = `username=${name}; expires=${new Date(2025, 10, 20).toUTCString()}; path=/`;
+        }
+        else {
+        console.warn("Invalid player name — cookie not set.");
     }
-
-
+    }
+    function getUsername(name){
+        const cookies = document.cookie.split(";")
+        for(const cookie of cookies){
+            const[key,value] = cookie.split("=");
+            if(key.trim() === name){
+                return value
+            }
+        }
+        return null;
+    }
 });
