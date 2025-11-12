@@ -104,5 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     })
 
+    function userCookie(name){
+        document.cookie(`username=${name};expires=`, new Date(9999, 0, 1).toUTCString)
+    }
+
 
 });
