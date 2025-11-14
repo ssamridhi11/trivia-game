@@ -158,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Invalid player name — cookie not set.");
     }
     }
+    // Gets cookie for players name
     function getUsername(name){
         const cookies = document.cookie.split(";")
         for(const cookie of cookies){
@@ -168,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return null;
     }
+    // checks for username if they already exists.
     function checkUsername(){
         const usernameInput = document.getElementById("username")
         const username = getUsername("username")
@@ -181,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             newPlayerButton.classList.add("hidden")
         }
     }
-
+    // 
     function calculateScores(){
         let score = 0;
         const questions = questionContainer.querySelectorAll("div");
