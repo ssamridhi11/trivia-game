@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json()
         } catch (error) {
             //  Error handling: log the error message
-            console.error("Failed to fetch data, error.message");
+            console.error("Failed to fetch data", error.message);
             showLoading(false)
         }
     }
@@ -101,6 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         event.preventDefault();
         const playerName = document.getElementById("username").value.trim() || getUsername("username");
+        if(playerName) { // <-- Key change: store username if typed
+            storeUsername(playerNameInput);
+            checkUsername(); // <-- Show "New Player" button
+        }
         const score = calculateScores();
         saveScore(playerName, score); //to save the score
         displayScores(); //updates the  table
@@ -113,8 +117,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     newPlayerButton.addEventListener("click", (event) => {
+    //To delete the username cookie
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    })
+    //Resets input field
+    const usernameInput = document.getElementById("username");
+    usernameInput.value = "";
+    usernameInput.classList.remove("hidden");
+
+    //to Hide the new player button
+    newPlayerButton.classList.add("hidden");
+
+    console.log("New player session started. Enter a new username.");
+
+    localStorage.removeItem("triviaScores");
+    
+    displayScores();
+
+    });
+
+
 
     function storeUsername(name){
         if(name.trim() !== ""){
@@ -180,4 +202,5 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.appendChild(row);
     });
 }
+
 });
