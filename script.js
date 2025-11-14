@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const newPlayerButton = document.getElementById("new-player");
 
     // Initialize the game
-    // checkUsername(); Uncomment once completed
+    checkUsername(); 
     displayQuestions();
     // displayScores();
 
@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
      * @param {boolean} isLoading - Indicates whether the loading state should be shown.
      */
     function showLoading(isLoading) {
-        document.getElementById("loading-container").classList = isLoading
+        document.getElementById("loading-container").className = isLoading
             ? ""
             : "hidden";
-        document.getElementById("question-container").classList = isLoading
+        document.getElementById("question-container").className = isLoading
             ? "hidden"
             : "";
     }
@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     newPlayerButton.addEventListener("click", (event) => {
 
     })
+
     function storeUsername(name){
         if(name.trim() !== ""){
             document.cookie = `username=${name}; expires=${new Date(2025, 10, 20).toUTCString()}; path=/`;
@@ -116,9 +117,22 @@ document.addEventListener("DOMContentLoaded", () => {
         for(const cookie of cookies){
             const[key,value] = cookie.split("=");
             if(key.trim() === name){
-                return value
+                return value.trim()
             }
         }
         return null;
+    }
+    function checkUsername(){
+        const usernameInput = document.getElementById("username")
+        const username = getUsername("username")
+        if(username){
+            usernameInput.classList.add("hidden")
+            newPlayerButton.classList.remove("hidden")
+            console.log(`THIS USERNAME ALREADY EXISTS.`)
+    
+        }else{
+            usernameInput.classList.remove("hidden")
+            newPlayerButton.classList.add("hidden")
+        }
     }
 });
