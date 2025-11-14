@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize the game
     checkUsername(); 
     displayQuestions();
-    // displayScores();
+    displayScores();
 
     /**
      * Fetches trivia questions from the API and displays them.
@@ -98,8 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Event listeners for form submission and new player button
     form.addEventListener("submit", handleSubmitButton) 
     function handleSubmitButton(event){
+
         event.preventDefault();
+        const playerName = document.getElementById("username").value.trim() || getUsername("username");
         const score = calculateScores();
+        saveScore(playerName, score); //to save the score
+        displayScores(); //updates the  table
+
+        //refreshes the questions for a new round
+        displayQuestions();
 
 
 
@@ -142,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function calculateScores(){
-        const score = 0;
+        let score = 0;
         const questions = questionContainer.querySelectorAll("div");
         questions.forEach((question) => {
             const selected = question.querySelector("input[type='radio']:checked");
@@ -154,4 +161,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     }
+    function saveScore(playerName, score){
+        if (!playerName) return;
+        const scores = JSON.parse(localStorage.getItem("triviaScores")) || [];
+        scores.push({ name: playerName, score: score });
+        localStorage.setItem("triviaScores", JSON.stringify(scores));
+    }
+
+    function displayScores() {
+    const tbody = document.querySelector("#score-table tbody");
+    tbody.innerHTML = ""; // to clear existing rows
+
+    const scores = JSON.parse(localStorage.getItem("triviaScores")) || [];
+
+    scores.forEach((entry) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.name}</td><td>${entry.score}</td>`;
+        tbody.appendChild(row);
+    });
+}
 });
