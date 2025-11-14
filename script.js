@@ -138,16 +138,16 @@ document.addEventListener("DOMContentLoaded", () => {
     usernameInput.value = "";
     usernameInput.classList.remove("hidden");
 
-    // Hide new player button
+    // Hide "New Player" button
     newPlayerButton.classList.add("hidden");
 
-    // Clear all scores
-    localStorage.removeItem("triviaScores");
+    console.log("New player session started. Enter a new username.");
 
-    // Refresh scores and questions for new player
-    displayScores();
-    displayQuestions();
-    
+    // Refresh score table and questions
+    // Will still show previous scores
+    displayScores();   
+    // New set of trivia for the new player
+    displayQuestions(); 
     });
 
     function storeUsername(name){
