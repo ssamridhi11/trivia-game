@@ -96,9 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Event listeners for form submission and new player button
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", handleSubmitButton) 
+    function handleSubmitButton(event){
+        event.preventDefault();
+        const score = calculateScores();
 
-    })
+
+
+    }
 
     newPlayerButton.addEventListener("click", (event) => {
 
@@ -134,5 +139,19 @@ document.addEventListener("DOMContentLoaded", () => {
             usernameInput.classList.remove("hidden")
             newPlayerButton.classList.add("hidden")
         }
+    }
+
+    function calculateScores(){
+        const score = 0;
+        const questions = questionContainer.querySelectorAll("div");
+        questions.forEach((question) => {
+            const selected = question.querySelector("input[type='radio']:checked");
+            if (selected && selected.dataset.correct === "true") {
+            score += 1;
+            }
+        })
+        return score; 
+
+
     }
 });
