@@ -101,10 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         event.preventDefault();
         const playerName = document.getElementById("username").value.trim() || getUsername("username");
-        if(playerName) { // <-- Key change: store username if typed
-            storeUsername(playerNameInput);
-            checkUsername(); // <-- Show "New Player" button
-        }
+    
         const score = calculateScores();
         saveScore(playerName, score); //to save the score
         displayScores(); //updates the  table
