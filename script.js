@@ -97,43 +97,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event listeners for form submission and new player button
     form.addEventListener("submit", handleSubmitButton) 
+
     function handleSubmitButton(event){
-
         event.preventDefault();
-        const playerName = document.getElementById("username").value.trim() || getUsername("username");
-    
+
+        const usernameInput = document.getElementById("username");
+        const playerName = usernameInput.value.trim() || getUsername("username");
+
+        if (!playerName) {
+            alert("Please enter a username!");
+            return;
+        }
+
+        // Store username if new player
+        if (!getUsername("username")) {
+            storeUsername(playerName);
+        }
+
+        // Hide username input, show New Player button
+        usernameInput.classList.add("hidden");
+        newPlayerButton.classList.remove("hidden");
+
+        // Calculate and save score
         const score = calculateScores();
-        saveScore(playerName, score); //to save the score
-        displayScores(); //updates the  table
+        saveScore(playerName, score);
 
-        //refreshes the questions for a new round
+        // Update score table
+        displayScores();
+
+        // Load new questions
         displayQuestions();
-
-
-
     }
 
-    newPlayerButton.addEventListener("click", (event) => {
-    //To delete the username cookie
-    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    newPlayerButton.addEventListener("click", () => {
+    // Delete username cookie
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
 
-    //Resets input field
+    // Reset input field
     const usernameInput = document.getElementById("username");
     usernameInput.value = "";
     usernameInput.classList.remove("hidden");
 
-    //to Hide the new player button
+    // Hide new player button
     newPlayerButton.classList.add("hidden");
 
-    console.log("New player session started. Enter a new username.");
-
+    // Clear all scores
     localStorage.removeItem("triviaScores");
-    
+
+    // Refresh scores and questions for new player
     displayScores();
-
+    displayQuestions();
+    
     });
-
-
 
     function storeUsername(name){
         if(name.trim() !== ""){
@@ -182,17 +197,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     function saveScore(playerName, score){
         if (!playerName) return;
+        // Gets the Existing scores using local storage.
         const scores = JSON.parse(localStorage.getItem("triviaScores")) || [];
+        // to add new storage 
         scores.push({ name: playerName, score: score });
         localStorage.setItem("triviaScores", JSON.stringify(scores));
     }
 
     function displayScores() {
     const tbody = document.querySelector("#score-table tbody");
-    tbody.innerHTML = ""; // to clear existing rows
-
+    // to clear existing rows
+    tbody.innerHTML = ""; 
+    // gets scores
     const scores = JSON.parse(localStorage.getItem("triviaScores")) || [];
-
+    // Populate the table 
     scores.forEach((entry) => {
         const row = document.createElement("tr");
         row.innerHTML = `<td>${entry.name}</td><td>${entry.score}</td>`;
