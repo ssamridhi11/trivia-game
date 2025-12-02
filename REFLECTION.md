@@ -10,7 +10,8 @@ Key features included
 - **dynamic rendering of questions and answer options**.  
 
 ## Objectives 
-- Fetching data asynchronously with `fetch/async/await` and handling API.  
+- Fetching data asynchronously with 
+`fetch/async/await` and handling API.  
 - Managing user sessions and persistent data in the browser.  
 - Dynamically updating the DOM and handling form submissions with event listeners.  
 - Calculating scores and maintaining a score table across sessions.  
